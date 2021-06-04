@@ -1,23 +1,16 @@
 [
   {
     "id": "5",
-    "name": "Cyrus555 Jackson",
+    "name": "Jackson",
     "email": "ni55bh@semsempererat.com",
-    "phone": "(50155) 472-5218",
+    "phone": "(155) 472 5218",
     "isisFavorite": true
   },
   {
-    "id": "6",
-    "name": "Abbot Franks",
-    "email": "scelerisque@magnis.org",
-    "phone": "(186) 568-3720",
-    "isFavorite": false
-  },
-  {
     "id": "7",
-    "name": "Reuben Henry",
-    "email": "pharetra.ut@dictum.co.uk",
-    "phone": "(715) 598-5792",
+    "name": "opg",
+    "email": "ni55bh@semsempererat.com",
+    "phone": "(155) 472 5218",
     "isFavorite": false
   },
   {
@@ -25,7 +18,7 @@
     "name": "Simon Morton",
     "email": "dui.Fusce.diam@Donec.com",
     "phone": "(233) 738-2360",
-    "isFavorite": false
+    "isFavorite": true
   },
   {
     "id": "9",
@@ -68,5 +61,53 @@
     "email": "kil@semsempererat.com",
     "phone": "(501) 888-5218",
     "isFavorite": false
+  },
+  {
+    "id": "5ommZmsWkB",
+    "name": "Konstantin",
+    "email": "papa@semsempererat.com",
+    "phone": "0208885218"
+  },
+  {
+    "id": "3gXCijJNA7",
+    "name": "Cyrus",
+    "email": "ni55bh@semsempererat.com",
+    "phone": "501554725218"
+  },
+  {
+    "id": "biNPFcFAOR",
+    "name": "Cyrus2",
+    "email": "ni55bh@semsempererat.com",
+    "phone": "501554725218"
+  },
+  {
+    "id": "Ogs9tF6Di2",
+    "name": "Cyrus2jkk",
+    "email": "ni55bh@semsempererat.com",
+    "phone": "501554725218"
+  },
+  {
+    "id": "KS9FR54mpO",
+    "name": "lophi",
+    "email": "ni55bh@semsempererat.com",
+    "phone": "89000000000"
+  },
+  {
+    "id": "ob5q9EIneH",
+    "name": "Platon",
+    "email": "ni55bh@semsempererat.com",
+    "phone": "(067) 598-5792"
+  },
+  {
+    "id": "qDkvMyTfCu",
+    "name": "Platon",
+    "email": "ni55bh@semsempererat.com",
+    "phone": "(067) 598-5792"
+  },
+  {
+    "id": "QPebBlu00n",
+    "name": "pohfds",
+    "email": "ni55bh@semsempererat.com",
+    "phone": "(067) 598 5792"
   }
 ]
