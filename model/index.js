@@ -25,10 +25,13 @@ const removeContact = async (contactId) => {
   const data = await readData();
 
   const contactIdx = data.findIndex((contact) => contact.id === contactId);
-  const remoteContact = data.splice(contactIdx, 1);
+  if (contactIdx) {
+    const remoteContact = data.splice(contactIdx, 1);
 
-  await fs.writeFile(pathToContacts, JSON.stringify(data, null, 2), "utf8");
-  return remoteContact;
+    await fs.writeFile(pathToContacts, JSON.stringify(data, null, 2), "utf8");
+    return remoteContact;
+  }
+  return null;
 };
 
 const addContact = async (body) => {

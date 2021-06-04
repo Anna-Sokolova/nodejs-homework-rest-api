@@ -4,76 +4,69 @@
     "name": "Cyrus555 Jackson",
     "email": "ni55bh@semsempererat.com",
     "phone": "(50155) 472-5218",
-    "favorite": true
+    "isisFavorite": true
   },
   {
     "id": "6",
     "name": "Abbot Franks",
     "email": "scelerisque@magnis.org",
     "phone": "(186) 568-3720",
-    "favorite": false
+    "isFavorite": false
   },
   {
     "id": "7",
     "name": "Reuben Henry",
     "email": "pharetra.ut@dictum.co.uk",
     "phone": "(715) 598-5792",
-    "favorite": false
+    "isFavorite": false
   },
   {
     "id": "8",
     "name": "Simon Morton",
     "email": "dui.Fusce.diam@Donec.com",
     "phone": "(233) 738-2360",
-    "favorite": false
+    "isFavorite": false
   },
   {
     "id": "9",
     "name": "Thomas Lucas",
     "email": "nec@Nulla.com",
     "phone": "(704) 398-7993",
-    "favorite": false
+    "isFavorite": false
   },
   {
     "id": "10",
     "name": "Alec Howard",
     "email": "Donec.elementum@scelerisquescelerisquedui.net",
     "phone": "(748) 206-2688",
-    "favorite": false
+    "isFavorite": false
   },
   {
     "id": "gx-xe6ycC2",
     "name": "Ann Lova",
     "email": "lova@semsempererat.com",
     "phone": "(501) 888-5218",
-    "favorite": false
+    "isFavorite": false
   },
   {
     "id": "FL41TRsZwI",
     "name": "Daniil Sokolov",
     "email": "daniil@mail.com",
     "phone": "(598) 778-5218",
-    "favorite": false
+    "isFavorite": false
   },
   {
     "id": "VCxz48SQmF",
     "name": "Nikol",
     "email": "kil@semsempererat.com",
     "phone": "(501) 888-5218",
-    "favorite": false
+    "isFavorite": false
   },
   {
     "id": "ntZJlZl2Jj",
     "name": "DIMA",
     "email": "kil@semsempererat.com",
     "phone": "(501) 888-5218",
-    "favorite": false
-  },
-  {
-    "id": "6fed352c-660a-47a8-841f-924c267066f4",
-    "name": "mama",
-    "email": "njknknjl@semsempererat.com",
-    "phone": "(501) 888-5218",
-    "favorite": false
+    "isFavorite": false
   }
 ]
