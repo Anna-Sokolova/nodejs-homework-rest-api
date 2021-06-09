@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Contacts = require("../../model");
+const Contacts = require("../../model/contacts");
 const { validationCreateContact, validationUpdateContact, validationUpdateStatusContact } = require("./validation");
 
 // возвращает массив всех контактов
@@ -68,7 +68,7 @@ router.put("/:contactId", validationUpdateContact, async (req, res, next) => {
 });
 
 // обновляет статус контакта по id
-router.patch("/:contactId/status", validationUpdateStatusContact, async (req, res, next) => {
+router.patch("/:contactId/favorite", validationUpdateStatusContact, async (req, res, next) => {
   const { contactId } = req.params;
   const body = req.body;
   try {
