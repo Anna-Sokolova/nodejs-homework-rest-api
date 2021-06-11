@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const schemaCreateContact = Joi.object({
-  name: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{2,30}$")).required(),
+  name: Joi.string().alphanum().min(2).max(30).required(),
   email: Joi.string().email({ minDomainSegments: 2 }).required(),
   phone: Joi.string()
     .pattern(/^[(][\d]{3}[)]\s[\d]{3}[\s][\d]{4}/)
