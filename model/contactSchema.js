@@ -17,8 +17,22 @@ const contactSchema = new Schema(
       default: false,
     },
   },
-  { versionKey: false, timestamps: true }
+  {
+    versionKey: false,
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
+  }
 );
+
+contactSchema.virtual("info").get(function () {
+  return `The Contact ${this.name} has email: ${this.email} and phone: ${this.phone} `;
+});
+
 
 const Contact = model("contact", contactSchema);
 
