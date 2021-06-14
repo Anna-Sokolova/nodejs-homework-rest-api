@@ -14,7 +14,7 @@ const contactSchema = new Schema(
     },
     owner: {
       type: SchemaTypes.ObjectId,
-      ref: 'user',
+      ref: "user",
     },
     favorite: {
       type: Boolean,
@@ -36,7 +36,6 @@ const contactSchema = new Schema(
 contactSchema.virtual("info").get(function () {
   return `The Contact ${this.name} has email: ${this.email} and phone: ${this.phone} `;
 });
-
 
 const Contact = model("contact", contactSchema);
 
