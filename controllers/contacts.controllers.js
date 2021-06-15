@@ -3,6 +3,7 @@ const Contacts = require("../repositories/contacts");
 // возвращает массив всех контактов
 const getAllContacts = async (req, res, next) => {
   try {
+    console.log(req.user);
     const allContacts = await Contacts.listContacts();
     return res.json({ status: "success", code: 200, data: { allContacts } });
   } catch (error) {

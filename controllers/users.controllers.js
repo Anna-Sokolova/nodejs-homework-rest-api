@@ -1,5 +1,9 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const Users = require("../repositories/users");
 const { HttpCode } = require("../helpers/constants");
+
+const SECRET_KEY = process.env.SECRET_KEY;
 
 // регистрируем юзера
 const signupUser = async (req, res, next) => {
@@ -32,11 +36,40 @@ const signupUser = async (req, res, next) => {
   }
 };
 
-// логиним пользователя
+// логиним пользователя, привязываем токен
 const loginUser = async (req, res, next) => {
+  const { email, password } = req.body;
+
   try {
-    const allContacts = await Users.listContacts();
-    return res.json({ status: "success", code: 200, data: { allContacts } });
+    const user = await Users.findByEmail(email);
+    const isValidPassword = await user?.isValidPassword(password);
+
+    if (!user || !isValidPassword) {
+      return res.status(HttpCode.UNAUTHORIZED).json({
+        status: "error",
+        code: HttpCode.UNAUTHORIZED,
+        message: "Email or password is wrong",
+      });
+    }
+
+    const payload = {
+      id: user.id,
+    };
+
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "2h" });
+    await Users.updateToken(user.id, token);
+
+    return res.json({
+      status: "success",
+      code: HttpCode.OK,
+      data: {
+        token,
+        user: {
+          email: user.email,
+          subscription: user.subscription,
+        },
+      },
+    });
   } catch (error) {
     next(error);
   }
