@@ -8,5 +8,6 @@ router.post("/signup", schemaCreateUser, userCtrl.signupUser);
 router.post("/login", schemaCreateUser, userCtrl.loginUser);
 router.post("/logout", guard, userCtrl.logoutUser);
 router.get("/current", guard, userCtrl.getCurrentUser);
+router.patch("/subscription", guard, userCtrl.updateStatusSubscription);
 
 module.exports = router;

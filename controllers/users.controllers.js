@@ -97,9 +97,33 @@ const getCurrentUser = async (req, res, next) => {
   }
 };
 
+// Обновление подписки (subscription) пользователя
+const updateStatusSubscription = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const body = req.body;
+    console.log(body);
+
+    const updatedUser = await Users.updateSubscription(userId, body);
+    if (!updatedUser) {
+      return res.json({ status: "error", code: HttpCode.NOT_FOUND, message: "Not found" });
+    }
+    const { email, subscription } = updatedUser;
+
+    return res.json({
+      status: "success",
+      code: HttpCode.OK,
+      data: { email, subscription },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
   logoutUser,
   getCurrentUser,
+  updateStatusSubscription,
 };

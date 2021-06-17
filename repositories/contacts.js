@@ -1,10 +1,6 @@
 const Contact = require("../model/contactSchema");
 
 const listContacts = async (userId, query) => {
-  // const allContacts = await Contact.find({ owner: userId }).populate({
-  //   path: 'owner',
-  //   select: 'email subscription -_id'
-  // });
   const { sortBy, sortByDesc, filter, favorite = null, limit = 5, page = 1 } = query;
   const optionSearch = { owner: userId };
   if (favorite !== null) {
