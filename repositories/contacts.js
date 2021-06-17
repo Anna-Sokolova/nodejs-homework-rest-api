@@ -13,6 +13,10 @@ const listContacts = async (userId, query) => {
   const allContacts = await Contact.paginate(optionSearch, {
     limit,
     page,
+    sort: {
+      ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
+      ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
+    },
     populate: {
       path: "owner",
       select: "email subscription -_id",
