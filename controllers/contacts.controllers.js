@@ -6,8 +6,8 @@ const getAllContacts = async (req, res, next) => {
   try {
     console.log(req.user);
     const userId = req.user.id;
-    const allContacts = await Contacts.listContacts(userId);
-    return res.json({ status: "success", code: HttpCode.OK, data: { allContacts } });
+    const { docs: allContacts, ...rest } = await Contacts.listContacts(userId, req.query); // в ...rest собираем всю остальную инфу с БД
+    return res.json({ status: "success", code: HttpCode.OK, data: { allContacts, ...rest } });
   } catch (error) {
     next(error);
   }
