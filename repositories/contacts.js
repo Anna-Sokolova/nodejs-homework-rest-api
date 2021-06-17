@@ -5,10 +5,10 @@ const listContacts = async (userId, query) => {
   //   path: 'owner',
   //   select: 'email subscription -_id'
   // });
-  const { sortBy, sortByDesc, filter, isFavorite = null, limit = 5, page = 1 } = query;
+  const { sortBy, sortByDesc, filter, favorite = null, limit = 5, page = 1 } = query;
   const optionSearch = { owner: userId };
-  if (isFavorite !== null) {
-    optionSearch.isFavorite = favorite;
+  if (favorite !== null) {
+    optionSearch.favorite = favorite;
   }
   const allContacts = await Contact.paginate(optionSearch, {
     limit,
@@ -17,6 +17,7 @@ const listContacts = async (userId, query) => {
       ...(sortBy ? { [`${sortBy}`]: 1 } : {}),
       ...(sortByDesc ? { [`${sortByDesc}`]: -1 } : {}),
     },
+    select: filter ? filter.split("|").join(" ") : "",
     populate: {
       path: "owner",
       select: "email subscription -_id",
