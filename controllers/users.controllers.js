@@ -75,6 +75,7 @@ const loginUser = async (req, res, next) => {
   }
 };
 
+// Логаут пользователя
 const logoutUser = async (req, res, next) => {
   const { id } = req.user;
   try {
@@ -85,8 +86,20 @@ const logoutUser = async (req, res, next) => {
   }
 };
 
+// Текущий пользователь - получить данные юзера по токену
+const getCurrentUser = async (req, res, next) => {
+  try {
+    console.log(req.user);
+    const { email, subscription } = req.user;
+    return res.json({ status: "success", code: HttpCode.OK, data: { email, subscription } });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
   logoutUser,
+  getCurrentUser,
 };
