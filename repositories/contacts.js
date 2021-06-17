@@ -10,7 +10,14 @@ const listContacts = async (userId, query) => {
   if (isFavorite !== null) {
     optionSearch.isFavorite = favorite;
   }
-  const allContacts = await Contact.paginate(optionSearch, { limit, page });
+  const allContacts = await Contact.paginate(optionSearch, {
+    limit,
+    page,
+    populate: {
+      path: "owner",
+      select: "email subscription -_id",
+    },
+  });
   return allContacts;
 };
 
