@@ -21,7 +21,7 @@ const userSchema = new Schema(
     subscription: {
       type: String,
       enum: Object.values(Subscription),
-      default: "starter",
+      default: Object.values(Subscription)[0],
     },
     token: {
       type: String,

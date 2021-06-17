@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const userCtrl = require("../../../controllers/users.controllers");
-// const { validationCreateContact, validationUpdateContact, validationUpdateStatusContact } = require("../validation");
+const { schemaCreateUser } = require("./users.validation");
+const guard = require("../../../helpers/guard");
 
-router.post("/signup",  userCtrl.signupUser);
-router.post("/login",  userCtrl.loginUser);
-router.post("/logout",  userCtrl.logoutUser);
+router.post("/signup", schemaCreateUser, userCtrl.signupUser);
+router.post("/login", schemaCreateUser, userCtrl.loginUser);
+router.post("/logout", guard, userCtrl.logoutUser);
+router.get("/current", guard, userCtrl.getCurrentUser);
 
 module.exports = router;
