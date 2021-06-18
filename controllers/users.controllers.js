@@ -104,16 +104,22 @@ const updateStatusSubscription = async (req, res, next) => {
     const body = req.body;
     console.log(body);
 
-    const updatedUser = await Users.updateSubscription(userId, body);
-    if (!updatedUser) {
+    await Users.updateSubscription(userId, body.subscription);
+    const { email, subscription } = await Users.findById(userId);
+
+    if (!(email, subscription)) {
       return res.json({ status: "error", code: HttpCode.NOT_FOUND, message: "Not found" });
     }
-    const { email, subscription } = updatedUser;
 
     return res.json({
       status: "success",
       code: HttpCode.OK,
-      data: { email, subscription },
+      data: {
+        user: {
+          email,
+          subscription,
+        },
+      },
     });
   } catch (error) {
     next(error);

@@ -1,8 +1,13 @@
 const Joi = require("joi");
-
+const { HttpCode } = require("../../../helpers/constants");
 const schemaCreateUser = Joi.object({
   password: Joi.string().min(5).required(),
   email: Joi.string().email({ minDomainSegments: 2 }).required(),
+  subscription: Joi.any().valid("starter", "pro", "business").optional(),
+});
+
+const shemaUpdateSubscription = Joi.object({
+  subscription: Joi.any().valid("starter", "pro", "business").required(),
 });
 
 const validate = async (schema, obj, next) => {
@@ -11,7 +16,7 @@ const validate = async (schema, obj, next) => {
     next();
   } catch (err) {
     next({
-      status: 400,
+      status: HttpCode.BAD_REQUEST,
       message: `missing ${err.message.replace(/"/g, "")} field`,
     });
   }
@@ -20,5 +25,8 @@ const validate = async (schema, obj, next) => {
 module.exports = {
   schemaCreateUser: (req, res, next) => {
     return validate(schemaCreateUser, req.body, next);
+  },
+  shemaUpdateSubscription: (req, res, next) => {
+    return validate(shemaUpdateSubscription, req.body, next);
   },
 };

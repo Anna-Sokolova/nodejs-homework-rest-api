@@ -17,8 +17,8 @@ const updateToken = async (id, token) => {
   return await User.updateOne({ _id: id }, { token });
 };
 
-const updateSubscription = async (id, body) => {
-  const result = await User.findOneAndUpdate(id, { ...body }, { new: true });
+const updateSubscription = async (id, subscription) => {
+  const result = await User.updateOne({ _id: id }, { subscription });
   return result;
 };
 
