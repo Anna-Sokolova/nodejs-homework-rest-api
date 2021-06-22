@@ -4,6 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const boolParser = require("express-query-boolean");
+const path = require("path");
 const { limiterAPI } = require("./helpers/constants");
 const { HttpCode } = require("./helpers/constants");
 const app = express();
@@ -15,6 +16,8 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json({ limit: 10000 }));
 app.use(boolParser());
+
+app.use(express.static(path.join(__dirname, "/public")));
 
 // устанавливаем лимит запросов на наш сервер
 app.use("/api/", rateLimit(limiterAPI));
