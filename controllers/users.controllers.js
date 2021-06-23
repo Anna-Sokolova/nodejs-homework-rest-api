@@ -1,8 +1,10 @@
 const jwt = require("jsonwebtoken");
+const fs = require("fs/promises");
+const path = require("path");
 require("dotenv").config();
 const Users = require("../repositories/users");
 const { HttpCode } = require("../helpers/constants");
-
+const UploadAvatarService = require("../services/local-upload");
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // регистрируем юзера
@@ -28,6 +30,7 @@ const signupUser = async (req, res, next) => {
           id: newUser.id,
           email: newUser.email,
           subscription: newUser.subscription,
+          avatarURL: newUser.avatarURL,
         },
       },
     });
@@ -56,7 +59,7 @@ const loginUser = async (req, res, next) => {
       id: user.id,
     };
 
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "2h" });
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "4h" }); // присваивание токена пользователю
     await Users.updateToken(user.id, token);
 
     return res.json({
@@ -97,7 +100,7 @@ const getCurrentUser = async (req, res, next) => {
   }
 };
 
-// Обновление подписки (subscription) пользователя
+// Обновление подписки (subscription) пользователя локально
 const updateStatusSubscription = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -126,10 +129,37 @@ const updateStatusSubscription = async (req, res, next) => {
   }
 };
 
+// Обновление аватарки пользователя
+const updateAvatars = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const uploads = new UploadAvatarService("avatars");
+    const avatarUrl = await uploads.saveAvatar({ idUser: userId, file: req.file });
+
+    // удаляем старую аватарку
+    try {
+      await fs.unlink(path.join("public", req.user.avatarUrl));
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    // обновляем аватарку
+    await Users.updateAvatar(userId, avatarUrl);
+    return res.json({
+      status: "success",
+      code: HttpCode.OK,
+      data: { avatarUrl },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
   logoutUser,
   getCurrentUser,
   updateStatusSubscription,
+  updateAvatars,
 };
