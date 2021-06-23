@@ -135,10 +135,11 @@ const updateAvatars = async (req, res, next) => {
     const userId = req.user.id;
     const uploads = new UploadAvatarService("avatars");
     const avatarUrl = await uploads.saveAvatar({ idUser: userId, file: req.file });
-
+    console.log(req.user.avatarURL);
+    
     // удаляем старую аватарку
     try {
-      await fs.unlink(path.join("public", req.user.avatarUrl));
+      await fs.unlink(path.join("public", req.user.avatarURL));
     } catch (error) {
       console.log(error.message);
     }
