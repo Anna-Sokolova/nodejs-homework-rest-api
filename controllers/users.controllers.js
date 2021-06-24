@@ -9,9 +9,8 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 // регистрируем юзера
 const signupUser = async (req, res, next) => {
-  const { email } = req.body;
-
   try {
+    const { email } = req.body;
     const user = await Users.findByEmail(email);
     if (user) {
       return res.status(HttpCode.CONFLICT).json({
@@ -41,9 +40,8 @@ const signupUser = async (req, res, next) => {
 
 // логиним пользователя, привязываем токен
 const loginUser = async (req, res, next) => {
-  const { email, password } = req.body;
-
   try {
+    const { email, password } = req.body;
     const user = await Users.findByEmail(email);
     const isValidPassword = await user?.isValidPassword(password);
 
@@ -80,8 +78,8 @@ const loginUser = async (req, res, next) => {
 
 // Логаут пользователя
 const logoutUser = async (req, res, next) => {
-  const { id } = req.user;
   try {
+    const { id } = req.user;
     await Users.updateToken(id, null);
     return res.status(HttpCode.NO_CONTENT).json({});
   } catch (error) {
@@ -136,7 +134,7 @@ const updateAvatars = async (req, res, next) => {
     const uploads = new UploadAvatarService("avatars");
     const avatarUrl = await uploads.saveAvatar({ idUser: userId, file: req.file });
     console.log(req.user.avatarURL);
-    
+
     // удаляем старую аватарку
     try {
       await fs.unlink(path.join("public", req.user.avatarURL));
