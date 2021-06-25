@@ -12,20 +12,15 @@ const guard = (req, res, next) => {
     if (headerAuth) {
       token = headerAuth.split(" ")[1];
     }
-    if (err) {
+
+    if (err || !user || token !== user?.token) {
       return res.status(HttpCode.UNAUTHORIZED).json({
         status: "error",
         code: HttpCode.UNAUTHORIZED,
         message: "Email or password is wrong",
       });
     }
-    if (!user || token !== user?.token) {
-      return res.status(HttpCode.UNAUTHORIZED).json({
-        status: "error",
-        code: HttpCode.UNAUTHORIZED,
-        message: "Not authorized",
-      });
-    }
+
     req.user = user; // хешируем юзера
     return next();
   })(req, res, next);

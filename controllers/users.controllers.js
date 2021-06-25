@@ -1,15 +1,16 @@
 const jwt = require("jsonwebtoken");
+const fs = require("fs/promises");
+const path = require("path");
 require("dotenv").config();
 const Users = require("../repositories/users");
 const { HttpCode } = require("../helpers/constants");
-
+const UploadAvatarService = require("../services/local-upload");
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // регистрируем юзера
 const signupUser = async (req, res, next) => {
-  const { email } = req.body;
-
   try {
+    const { email } = req.body;
     const user = await Users.findByEmail(email);
     if (user) {
       return res.status(HttpCode.CONFLICT).json({
@@ -28,6 +29,7 @@ const signupUser = async (req, res, next) => {
           id: newUser.id,
           email: newUser.email,
           subscription: newUser.subscription,
+          avatarURL: newUser.avatarURL,
         },
       },
     });
@@ -38,9 +40,8 @@ const signupUser = async (req, res, next) => {
 
 // логиним пользователя, привязываем токен
 const loginUser = async (req, res, next) => {
-  const { email, password } = req.body;
-
   try {
+    const { email, password } = req.body;
     const user = await Users.findByEmail(email);
     const isValidPassword = await user?.isValidPassword(password);
 
@@ -56,7 +57,7 @@ const loginUser = async (req, res, next) => {
       id: user.id,
     };
 
-    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "2h" });
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "4h" }); // присваивание токена пользователю
     await Users.updateToken(user.id, token);
 
     return res.json({
@@ -77,8 +78,8 @@ const loginUser = async (req, res, next) => {
 
 // Логаут пользователя
 const logoutUser = async (req, res, next) => {
-  const { id } = req.user;
   try {
+    const { id } = req.user;
     await Users.updateToken(id, null);
     return res.status(HttpCode.NO_CONTENT).json({});
   } catch (error) {
@@ -97,7 +98,7 @@ const getCurrentUser = async (req, res, next) => {
   }
 };
 
-// Обновление подписки (subscription) пользователя
+// Обновление подписки (subscription) пользователя локально
 const updateStatusSubscription = async (req, res, next) => {
   try {
     const userId = req.user.id;
@@ -126,10 +127,38 @@ const updateStatusSubscription = async (req, res, next) => {
   }
 };
 
+// Обновление аватарки пользователя
+const updateAvatars = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const uploads = new UploadAvatarService("avatars");
+    const avatarUrl = await uploads.saveAvatar({ idUser: userId, file: req.file });
+    console.log(req.user.avatarURL);
+
+    // удаляем старую аватарку
+    try {
+      await fs.unlink(path.join("public", req.user.avatarURL));
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    // обновляем аватарку
+    await Users.updateAvatar(userId, avatarUrl);
+    return res.json({
+      status: "success",
+      code: HttpCode.OK,
+      data: { avatarUrl },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signupUser,
   loginUser,
   logoutUser,
   getCurrentUser,
   updateStatusSubscription,
+  updateAvatars,
 };

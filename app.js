@@ -4,6 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const boolParser = require("express-query-boolean");
+const path = require("path");
 const { limiterAPI } = require("./helpers/constants");
 const { HttpCode } = require("./helpers/constants");
 const app = express();
@@ -11,6 +12,10 @@ const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(helmet()); // подключаем перед всеми ПО для безопасности
+
+// подключаем статику
+app.use(express.static(path.join(__dirname, "/public")));
+
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json({ limit: 10000 }));
@@ -28,7 +33,7 @@ app.use((_req, res) => {
 
 app.use((err, _req, res, _next) => {
   const status = err.status || HttpCode.INTERNAL_SERVER_ERROR;
-  res.status(status).json({ status: "fail", code: status, message: err.message });
+  res.status(status).json({ status: status === 500 ? "fail" : "error", code: status, message: err.message });
 });
 
 module.exports = app;
