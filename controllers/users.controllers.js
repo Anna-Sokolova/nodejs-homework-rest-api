@@ -56,7 +56,7 @@ const loginUser = async (req, res, next) => {
     const user = await Users.findByEmail(email);
     const isValidPassword = await user?.isValidPassword(password);
 
-    if (!user || !isValidPassword || !user.verifyToken) {
+    if (!user || !isValidPassword || !user.isVerified) {
       return res.status(HttpCode.UNAUTHORIZED).json({
         status: "error",
         code: HttpCode.UNAUTHORIZED,
@@ -212,7 +212,7 @@ const repeatEmailVerification = async (req, res, next) => {
       code: HttpCode.NOT_FOUND,
       message: "User not found",
     });
-    
+
   } catch (error) {
     next(error);
   }
